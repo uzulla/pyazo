@@ -1,0 +1,15 @@
+pyazo
+<form action="/" method="post" enctype="multipart/form-data">
+<input type='file' name='imagedata'>
+<input type='submit'>
+</form>
+
+please edit gyazo to
+<pre>
+HOST = 'yairc.cfe.jp'
+CGI = '/'
+UA   = 'Gyazo/1.0'
+and
+Net::HTTP.start(HOST,5000){|http|
+</pre>
+
