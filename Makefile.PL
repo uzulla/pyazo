@@ -19,7 +19,7 @@ WriteMakefile(
         'Plack::Handler::Starman' => 0,
         'Time::HiRes' => 0,
         'String::Random' => 0,
-        'Image::Info;' => 0,
+        'Image::Info' => 0,
         'File::Basename' => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
