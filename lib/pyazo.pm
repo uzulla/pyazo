@@ -5,6 +5,7 @@ use Time::HiRes qw/ time /;
 use String::Random;
 use File::Basename;
 use Image::Info;
+use File::Path;
 
 use utf8;
 binmode(STDOUT, ":utf8");
@@ -34,13 +35,40 @@ post '/' => sub {
             $type = '.'.$img_info->{file_type};
         }
         $filename = "image/" . randstr() . lc($type);
+        $upload->copy_to( 'public/' . $filename);
 
     }elsif(upload('data')){ #gifzo mode
         $upload = upload('data');
-        $filename = "image/" . randstr() . ".mp4";
+        unless($ENV{FFMPEG_PATH} && $ENV{IM_CONVERT_PATH}){
+            die "require IM_CONVERT_PATH and FFMPEG_PATH env";
+        }
+
+        my $tmpdirname = String::Random->new->randregex('[A-Za-z0-9]{32}');
+        my $tmpdirpath  = "tmp/".$tmpdirname;
+        mkdir $tmpdirpath;
+
+        my $movfilename = $upload->tempname;
+
+        my $execline = "$ENV{FFMPEG_PATH} -i $movfilename -r 6 $tmpdirpath/%05d.png";
+        print $execline;
+        `$execline`;
+
+        my $outgif = "$tmpdirpath/out.gif";
+        my $execline2 = "$ENV{IM_CONVERT_PATH} $tmpdirpath/*.png $outgif";
+        print $execline2;
+        `$execline2`;
+
+        my $randstr = randstr();
+        my $giffilename = "image/" . $randstr . ".gif";
+        rename $outgif, 'public/' . $giffilename;
+        my $mp4filename = "image/" . $randstr . ".mp4";
+        $upload->copy_to( 'public/' . $mp4filename);
+
+        File::Path::rmtree($tmpdirpath);
+
+        $filename = $giffilename;
 
     }
-    $upload->copy_to( 'public/' . $filename);
     return uri_for('/') . $filename;
 
 };

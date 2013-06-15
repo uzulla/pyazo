@@ -21,6 +21,7 @@ WriteMakefile(
         'String::Random' => 0,
         'Image::Info' => 0,
         'File::Basename' => 0,
+	'File::Path' => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'pyazo-*' },

@@ -1,18 +1,16 @@
-pyazo
-Gyazo:
+<h1>pyazo</h1>
+<h2>Gyazo:</h2>
 <form action="/" method="post" enctype="multipart/form-data">
 <input type='file' name='imagedata'>
 <input type='submit'>
-</form><br>
-<br>
-<!--
-Gifzo(mp4):
+</form>
+<h2>Gifzo(mp4 only):</h2>
 <form action="/" method="post" enctype="multipart/form-data">
 <input type='file' name='data'>
 <input type='submit'>
 </form>
--->
 
+<h2>how to use gyazo client</h2>
 please edit gyazo to
 <pre>
 HOST = 'yairc.cfe.jp'
