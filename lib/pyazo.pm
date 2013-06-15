@@ -37,7 +37,7 @@ post '/' => sub {
 
     }elsif(upload('data')){ #gifzo mode
         $upload = upload('data');
-        $filename = "image/" . Time::HiRes::time() . ".mp4";
+        $filename = "image/" . randstr() . ".mp4";
 
     }
     $upload->copy_to( 'public/' . $filename);
