@@ -27,7 +27,7 @@ post '/' => sub {
     if(upload('imagedata')){ #pyazo mode
         $upload = upload('imagedata');
         my ($fn, $path, $type) = fileparse( $upload->filename, qr/\.[^\.]+$/ );
-        unless( $type ){
+        if( !$type || $type eq '.com' ){ # .com will pass by mac gyazo client. wtf???
             my $img_info = Image::Info::image_type($upload->tempname); #画像データの一部から判定
             if ( $img_info->{error} ) {
                 die sprintf("Can't determine file type: %s", $img_info->{error});
