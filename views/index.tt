@@ -1,8 +1,17 @@
 pyazo
+Gyazo:
 <form action="/" method="post" enctype="multipart/form-data">
 <input type='file' name='imagedata'>
 <input type='submit'>
+</form><br>
+<br>
+<!--
+Gifzo(mp4):
+<form action="/" method="post" enctype="multipart/form-data">
+<input type='file' name='data'>
+<input type='submit'>
 </form>
+-->
 
 please edit gyazo to
 <pre>
