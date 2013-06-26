@@ -22,6 +22,8 @@ WriteMakefile(
         'Image::Info' => 0,
         'File::Basename' => 0,
 	'File::Path' => 0,
+	'LWP::UserAgent' => 0,
+	'Media::Type::Simple' => 0
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'pyazo-*' },

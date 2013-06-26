@@ -4,6 +4,11 @@
 <input type='file' name='imagedata'>
 <input type='submit'>
 </form>
+<h2>Gyazo(post from url):</h2>
+<form action="/" method="post">
+<input type='text' name='fileurl'>
+<input type='submit'>
+</form>
 <h2>Gifzo(mp4 only):</h2>
 <form action="/" method="post" enctype="multipart/form-data">
 <input type='file' name='data'>

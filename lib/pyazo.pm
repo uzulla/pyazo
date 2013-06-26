@@ -6,6 +6,8 @@ use String::Random;
 use File::Basename;
 use Image::Info;
 use File::Path;
+use Media::Type::Simple;
+use LWP::UserAgent;
 
 use utf8;
 binmode(STDOUT, ":utf8");
@@ -67,6 +69,38 @@ post '/' => sub {
         File::Path::rmtree($tmpdirpath);
 
         $filename = $giffilename;
+
+    }elsif( params->{fileurl} ){
+        my $url = params->{fileurl};
+        my $ua = LWP::UserAgent->new;
+        my $r = $ua->head( $url );
+
+        return 'request error' unless $r; 
+
+        my $size = $r->header('Content-Length');
+
+        if( !$size || $size > (1024*1024) ){
+            return 'request url error or too big';
+        }
+
+        my $content_type = $r->header('Content-Type');
+        my $ext = '.'.ext_from_type($content_type);
+
+        if(!$ext){
+            my $_url = $url;
+            $_url =~ s/#.*$//;
+            $_url =~ s/^.*\///;
+            my ($fn, $path, $type) = fileparse( $_url, qr/\.[^\.]+$/ );
+            $ext = $type;
+        }
+
+        $filename = randstr() . $ext;
+
+        $url = params->{fileurl};
+        $r = $ua->mirror($url, 'public/image/'. $filename);
+        return 'request url get fail' unless $r;
+
+        $filename = 'image/'.$filename;
 
     }
     return uri_for('/') . $filename;
