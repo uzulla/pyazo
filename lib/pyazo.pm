@@ -84,7 +84,8 @@ post '/' => sub {
         }
 
         my $content_type = $r->header('Content-Type');
-        my $ext = '.'.ext_from_type($content_type);
+        my $ext = ext_from_type($content_type);
+        $ext = ".$ext" if $ext;
 
         if(!$ext){
             my $_url = $url;
