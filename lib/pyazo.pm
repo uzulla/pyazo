@@ -75,12 +75,12 @@ post '/' => sub {
         my $ua = LWP::UserAgent->new;
         my $r = $ua->head( $url );
 
-        return 'request error' unless $r; 
+        return 'error: HEAD request fail' unless $r; 
 
         my $size = $r->header('Content-Length');
 
-        if( !$size || $size > (1024*1024) ){
-            return 'request url error or too big';
+        if( !$size || $size > (5*1024*1024) ){
+            return 'error: request url too big (or get fail Content-Length)';
         }
 
         my $content_type = $r->header('Content-Type');
@@ -99,11 +99,13 @@ post '/' => sub {
 
         $url = params->{fileurl};
         $r = $ua->mirror($url, 'public/image/'. $filename);
-        return 'request url get fail' unless $r;
+        return 'error: get fail' unless $r;
 
         $filename = 'image/'.$filename;
 
     }
+    return 'error: blank post' unless $filename;
+
     return uri_for('/') . $filename;
 
 };
