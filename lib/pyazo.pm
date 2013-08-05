@@ -8,6 +8,7 @@ use Image::Info;
 use File::Path;
 use Media::Type::Simple;
 use LWP::UserAgent;
+use Data::Dumper;
 
 use utf8;
 binmode(STDOUT, ":utf8");
@@ -108,6 +109,37 @@ post '/' => sub {
 
     return uri_for('/') . $filename;
 
+};
+
+get '/list' => sub { # experimental
+    my @raw_file_list = glob("public/image/*");
+   
+    my $file_list = [];
+
+    for my $filename (@raw_file_list) {
+        my $type ;
+        if( $filename =~ m/(jpg|jpeg|png|gif)$/i ){
+            $type = 'image';
+        }else{
+            $type = 'other';
+        }
+        $filename =~ s|public/||g ;
+        push( $file_list, {
+                path => "../".$filename,
+                type => $type,
+            } );
+        
+    }
+
+    my $html = '';
+    for my $file (@$file_list){
+        if($file->{type} eq "image"){
+            $html.= "<img src='".$file->{path}."'><br>";
+        }else{
+            $html.= "<a href='".$file->{path}."'>".$file->{path}."</a><br>";
+        }
+    }
+    return $html;
 };
 
 sub randstr{
