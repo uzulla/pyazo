@@ -16,7 +16,7 @@ start.sh
 Gifzo compatible is optional.
 ====
 
-If you want use Gifzo compatible, You must install ffmpeg and ImageMagick( or YoyaMagick).
+If you want use Gifzo compatible, You must install ffmpeg and gifsicle or (ImageMagick( or YoyaMagick)).
 
 
 Sample
