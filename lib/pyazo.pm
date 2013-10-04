@@ -41,10 +41,14 @@ post '/' => sub {
         $upload->copy_to( 'public/' . $filename);
 
     }elsif(upload('data')){ #gifzo mode
+        unless($ENV{FFMPEG_PATH}){
+            die "require FFMPEG_PATH env";
+	    }
+	    unless($ENV{IM_CONVERT_PATH}||$ENV{GIFSICLE_PATH}){
+	        die "require IM_CONVERT_PATH or GIFSICLE_PATH env";
+	    }
+
         $upload = upload('data');
-        unless($ENV{FFMPEG_PATH} && $ENV{IM_CONVERT_PATH}){
-            die "require IM_CONVERT_PATH and FFMPEG_PATH env";
-        }
 
         my $tmpdirname = String::Random->new->randregex('[A-Za-z0-9]{32}');
         my $tmpdirpath  = "tmp/".$tmpdirname;
@@ -57,7 +61,13 @@ post '/' => sub {
         `$execline`;
 
         my $outgif = "$tmpdirpath/out.gif";
-        my $execline2 = "$ENV{IM_CONVERT_PATH} $tmpdirpath/*.gif $outgif";
+        if($ENV{GIFSICLE_PATH}){
+            my $execline2 = "$ENV{GIFSICLE_PATH} --delay=10 --loop $tmpdirpath/*.gif > $outgif";    
+        }elsif($ENV{IM_CONVERT_PATH}){
+            my $execline2 = "$ENV{IM_CONVERT_PATH} $tmpdirpath/*.gif $outgif";
+        }else{
+            die "require IM_CONVERT_PATH or GIFSICLE_PATH env";
+        }
         print $execline2;
         `$execline2`;
 
