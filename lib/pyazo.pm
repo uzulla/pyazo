@@ -16,7 +16,7 @@ $|=1;
 
 use Data::Dumper;
 
-our $VERSION = '0.1';
+our $VERSION = '0.2';
 
 get '/' => sub {
     template 'index';
