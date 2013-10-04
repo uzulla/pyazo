@@ -52,12 +52,12 @@ post '/' => sub {
 
         my $movfilename = $upload->tempname;
 
-        my $execline = "$ENV{FFMPEG_PATH} -i $movfilename -r 6 $tmpdirpath/%05d.png";
+        my $execline = "$ENV{FFMPEG_PATH} -i $movfilename -r 6 $tmpdirpath/%05d.gif";
         print $execline;
         `$execline`;
 
         my $outgif = "$tmpdirpath/out.gif";
-        my $execline2 = "$ENV{IM_CONVERT_PATH} $tmpdirpath/*.png $outgif";
+        my $execline2 = "$ENV{IM_CONVERT_PATH} $tmpdirpath/*.gif $outgif";
         print $execline2;
         `$execline2`;
 
