@@ -61,10 +61,11 @@ post '/' => sub {
         `$execline`;
 
         my $outgif = "$tmpdirpath/out.gif";
+        my $execline2;
         if($ENV{GIFSICLE_PATH}){
-            my $execline2 = "$ENV{GIFSICLE_PATH} --delay=10 --loop $tmpdirpath/*.gif > $outgif";    
+            $execline2 = "$ENV{GIFSICLE_PATH} --delay=10 --loop $tmpdirpath/*.gif > $outgif";    
         }elsif($ENV{IM_CONVERT_PATH}){
-            my $execline2 = "$ENV{IM_CONVERT_PATH} $tmpdirpath/*.gif $outgif";
+            $execline2 = "$ENV{IM_CONVERT_PATH} $tmpdirpath/*.gif $outgif";
         }else{
             die "require IM_CONVERT_PATH or GIFSICLE_PATH env";
         }
