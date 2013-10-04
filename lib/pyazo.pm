@@ -43,10 +43,17 @@ post '/' => sub {
     }elsif(upload('data')){ #gifzo mode
         unless($ENV{FFMPEG_PATH}){
             die "require FFMPEG_PATH env";
-	    }
-	    unless($ENV{IM_CONVERT_PATH}||$ENV{GIFSICLE_PATH}){
-	        die "require IM_CONVERT_PATH or GIFSICLE_PATH env";
-	    }
+        }
+        unless($ENV{IM_CONVERT_PATH}||$ENV{GIFSICLE_PATH}){
+            die "require IM_CONVERT_PATH or GIFSICLE_PATH env";
+        }
+        
+        my $temporary_format;
+        if($ENV{GIFSICLE_PATH}||$ENV{FORCE_TMP_GIF}){
+            $temporary_format = 'gif'; # fast, compact filesize. but bit dirty.(dithering)
+        }else{
+            $temporary_format = 'png'; # slow(5 to 10 times), large filesize(about twice). but bit clear.
+        }
 
         $upload = upload('data');
 
@@ -56,16 +63,16 @@ post '/' => sub {
 
         my $movfilename = $upload->tempname;
 
-        my $execline = "$ENV{FFMPEG_PATH} -i $movfilename -r 6 $tmpdirpath/%05d.gif";
+        my $execline = "$ENV{FFMPEG_PATH} -i $movfilename -r 6 $tmpdirpath/%05d.$temporary_format";
         print $execline;
         `$execline`;
 
         my $outgif = "$tmpdirpath/out.gif";
         my $execline2;
         if($ENV{GIFSICLE_PATH}){
-            $execline2 = "$ENV{GIFSICLE_PATH} --delay=10 --loop $tmpdirpath/*.gif > $outgif";    
+            $execline2 = "$ENV{GIFSICLE_PATH} --delay=10 --loop $tmpdirpath/*.$temporary_format > $outgif";    
         }elsif($ENV{IM_CONVERT_PATH}){
-            $execline2 = "$ENV{IM_CONVERT_PATH} $tmpdirpath/*.gif $outgif";
+            $execline2 = "$ENV{IM_CONVERT_PATH} $tmpdirpath/*.$temporary_format $outgif";
         }else{
             die "require IM_CONVERT_PATH or GIFSICLE_PATH env";
         }
