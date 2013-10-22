@@ -13,6 +13,24 @@ vi start.sh # if you use Gifzo compatible.
 start.sh 
 ```
 
+how to use with Mac gyazo client
+================================
+please edit ```Gyazo.app/Contents/MacOS/Gyazo```
+
+```
+HOST = 'yairc.cfe.jp'
+CGI = '/'
+UA   = 'Gyazo/1.0'
+```
+and
+
+```
+Net::HTTP.start(HOST,5000){|http|
+```
+
+(Huh? Windows? I dont know...)
+
+
 Gifzo compatible is optional.
 ====
 
