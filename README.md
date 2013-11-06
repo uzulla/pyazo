@@ -4,6 +4,18 @@ pyazo
 Gyazo and Gifzo compatible server by perl
 
 
+Wait a moment ...
+====
+[Pyazo2](https://github.com/uzulla/Pyazo2) was released.
+
+
+pyazo(THIS) is very simple, usuable. it will no longer develop.
+
+[Pyazo2](https://github.com/uzulla/Pyazo2)  is new version of pyazo. 
+Amon2 based.
+new feature (auto resize, auto JPEG orientation correction, more smart html).
+
+
 install and run
 ====
 
