@@ -49,6 +49,34 @@ Gifzo compatible is optional.
 If you want use Gifzo compatible, You must install ffmpeg and gifsicle or (ImageMagick( or YoyaMagick)).
 
 
+how to use with gifzo client
+====
+
+set settings.
+
+```
+$ defaults write net.gifzo.Gifzo url -string "http://your_pyazo_2/"
+```
+
+check settings.
+
+```
+$  defaults read net.gifzo.Gifzo
+{
+    url = "http://your_pyazo_2/";
+}
+```
+
+back to default.
+
+```
+$ defaults delete net.gifzo.Gifzo"
+```
+
+(Huh? Windows? I dont know...)
+
+
+
 start.sh options
 ====
 - export FFMPEG_PATH="/usr/bin/ffmpeg"
